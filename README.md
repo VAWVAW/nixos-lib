@@ -2,6 +2,18 @@ This flake contains the public parts of my nixos configuration.
 
 Nothing is activated by default but defaults are overwritten.
 
+# packages
+
+## nixvim
+
+Variants:
+
+- `nixvim`: base config; ~ 1G
+- `nixvim-all`: support for all languages enabled; ~ 3G
+- `nixvim-small`: use system packages for e.g. git; ~ 500M
+- `nixvim-minimal`: no treesitter; ~ 250M
+- `nixvim-<version>-tty`: reduce number of special glypgs for use in tty
+
 # `homeModules`
 
 ## Interacting with the specific configuration
