@@ -28,6 +28,9 @@ The syntax is the same as [impermanence](https://github.com/nix-community/imperm
 
 ### new options
 
+- `services.ssh-agent`
+    - `askPass`
+    - `timeout`
 - `programs.lutris.enable`
 - `programs.minecraft.enable` (via `prismlauncher`)
 - `programs.steam.enable`

@@ -10,5 +10,6 @@
   lutris = import ./lutris.nix;
   minecraft = import ./minecraft.nix;
   obsidian = import ./obsidian.nix;
+  ssh-agent = import ./ssh-agent.nix;
   steam = import ./steam.nix;
 }
