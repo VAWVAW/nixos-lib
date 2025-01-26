@@ -5,6 +5,7 @@
   # simple configurations
   alacritty = import ./alacritty.nix;
   direnv = import ./direnv.nix;
+  discord = import ./discord.nix;
   foot = import ./foot.nix;
   gpg = import ./gpg.nix;
   lutris = import ./lutris.nix;
