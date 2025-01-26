@@ -6,6 +6,8 @@
     nixvim.inputs."nixpkgs".follows = "nixpkgs";
   };
   outputs = { nixpkgs, ... }@inputs: {
+    lib = import ./lib;
+
     homeModules = import ./home/default.nix;
 
     packages = nixpkgs.lib.genAttrs [ "x86_64-linux" "aarch64-linux" ]

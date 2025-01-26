@@ -23,7 +23,7 @@
     };
 
     home.packages = let
-      discord = (import ./firejail.nix {
+      discord = (import ../lib/firejail.nix {
         inherit pkgs lib;
         name = "discord";
         wrappedExecutable =

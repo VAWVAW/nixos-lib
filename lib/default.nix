@@ -1,0 +1,1 @@
+{ wrapFirejailBinary = import ./firejail.nix; }

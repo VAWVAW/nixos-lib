@@ -10,7 +10,7 @@
     };
 
     home.packages = let
-      signal-desktop = (import ./firejail.nix {
+      signal-desktop = (import ../lib/firejail.nix {
         inherit pkgs lib;
         name = "signal-desktop";
         wrappedExecutable = "${pkgs.signal-desktop}/bin/signal-desktop";

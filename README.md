@@ -42,3 +42,9 @@ The syntax is the same as [impermanence](https://github.com/nix-community/imperm
 ## Notes
 
 - `foot` copies the look of `alacritty`
+
+# `lib`
+
+## `wrapFirejailBinary`
+
+creates a firejail wrapper for a binary
