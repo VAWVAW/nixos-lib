@@ -34,6 +34,7 @@ The syntax is the same as [impermanence](https://github.com/nix-community/imperm
 - `programs.discord.enable`
 - `programs.lutris.enable`
 - `programs.minecraft.enable` (via `prismlauncher`)
+- `programs.signal-desktop.enable`
 - `programs.steam.enable`
 - `programs.obsidian.enable`
 
