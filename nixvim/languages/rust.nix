@@ -8,8 +8,5 @@
       installCargo = false;
       installRustc = false;
     };
-
-    dap.enabled = true;
-    dap.extensions.dap-lldb.enable = true;
   };
 }

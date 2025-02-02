@@ -2,30 +2,24 @@
   options.plugins.dap.enabled = lib.mkEnableOption "dap";
 
   config = lib.mkIf config.plugins.dap.enabled {
-    plugins.cmp = {
-      filetype = {
-        "dap-repl".sources = [{ name = "dap"; }];
-        "dapui_watches".sources = [{ name = "dap"; }];
-        "dapui_hover".sources = [{ name = "dap"; }];
+    plugins = {
+      cmp = {
+        filetype = {
+          "dap-repl".sources = [{ name = "dap"; }];
+          "dapui_watches".sources = [{ name = "dap"; }];
+          "dapui_hover".sources = [{ name = "dap"; }];
+        };
+        settings.enabled = helpers.mkRaw ''
+          function()
+            return vim.api.nvim_buf_get_option(0, "buftype") ~= "prompt"
+                or require("cmp_dap").is_dap_buffer()
+          end
+        '';
       };
-      settings.enabled = helpers.mkRaw ''
-        function()
-          return vim.api.nvim_buf_get_option(0, "buftype") ~= "prompt"
-              or require("cmp_dap").is_dap_buffer()
-        end
-      '';
-    };
 
-    plugins.dap = {
-      enable = true;
-
-      signs.dapBreakpoint.text = "󰃤";
-      signs.dapBreakpoint.texthl = "DapBreakpoint";
-
-      extensions = {
-        dap-virtual-text.enable = true;
-        dap-ui = {
-          enable = true;
+      dap-ui = {
+        enable = true;
+        settings = {
           controls.enabled = false;
           layouts = [
             {
@@ -71,6 +65,15 @@
           };
         };
       };
+
+      dap-virtual-text.enable = true;
+
+      dap = {
+        enable = true;
+
+        signs.dapBreakpoint.text = "󰃤";
+        signs.dapBreakpoint.texthl = "DapBreakpoint";
+      };
     };
 
     keymaps = helpers.keymaps.mkKeymaps {
@@ -103,7 +106,7 @@
 
       {
         key = "<leader>dj";
-        action = helpers.mkRaw "require('dap').step_into";
+        action = helpers.mkRaw "require('dap').step_over";
       }
       {
         key = "<leader>dk";
@@ -111,7 +114,7 @@
       }
       {
         key = "<leader>dl";
-        action = helpers.mkRaw "require('dap').step_over";
+        action = helpers.mkRaw "require('dap').step_into";
       }
       {
         key = "<leader>dh";

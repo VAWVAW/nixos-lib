@@ -48,7 +48,7 @@
     };
 
     plugins.dap.signs.dapBreakpoint.text = lib.mkForce "B";
-    plugins.dap.extensions.dap-ui.icons = lib.mkForce {
+    plugins.dap-ui.settings.icons = lib.mkForce {
       collapsed = ">";
       current_frame = ">";
       expanded = "v";
