@@ -1,6 +1,7 @@
 {
   # plumbing
-  persistence = { imports = [ ./persistence.nix ]; };
+  desktop.imports = [ ./desktop.nix ];
+  persistence.imports = [ ./persistence.nix ];
 
   # simple configurations
   alacritty = import ./alacritty.nix;
