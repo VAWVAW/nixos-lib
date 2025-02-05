@@ -1,0 +1,51 @@
+From 0893c130ea0668c1dad2459a9b53b8e02c4af7ec Mon Sep 17 00:00:00 2001
+From: vaw <valentin@wiedekind1.de>
+Date: Wed, 5 Feb 2025 18:33:41 +0100
+Subject: [PATCH] Remove PATH rewrite
+
+---
+ src/core/config.c | 23 -----------------------
+ 1 file changed, 23 deletions(-)
+
+diff --git a/src/core/config.c b/src/core/config.c
+index 2a5bb24..e82ffb7 100644
+--- a/src/core/config.c
++++ b/src/core/config.c
+@@ -197,28 +197,6 @@ static char *get_config_path(void) {
+     return NULL;
+ }
+ 
+-void init_wrapper_path(struct environment *env, char * const configfile) {
+-    char *sys_path = getenv("PATH");
+-    char *config = configfile;
+-    char *substr = strrchr(config, '/');
+-    size_t cutoff = (size_t)(substr - config);
+-    char *config_path = strndup(config, cutoff);
+-    const char *const wrapper_paths =
+-        "/usr/local/share/xdg-desktop-portal-termfilechooser:/usr/share/xdg-desktop-portal-termfilechooser";
+-
+-    size_t path_size = 0;
+-    char *path_env = NULL;
+-
+-    path_size = snprintf(NULL, 0, "PATH=%s:%s:%s", config_path, wrapper_paths, sys_path);
+-    path_env = malloc(path_size);
+-    snprintf(path_env, path_size, "PATH=%s:%s:%s", config_path, wrapper_paths, sys_path);
+-
+-    parse_env(env, path_env);
+-
+-    free(path_env);
+-    free(config_path);
+-}
+-
+ void init_config(char ** const configfile, struct xdpw_config *config) {
+     if (*configfile == NULL) {
+         *configfile = get_config_path();
+@@ -232,5 +210,4 @@ void init_config(char ** const configfile, struct xdpw_config *config) {
+     if (ini_parse(*configfile, handle_ini_config, config) < 0) {
+         logprint(ERROR, "config: unable to load config file %s", *configfile);
+     }
+-    init_wrapper_path(config->filechooser_conf.env, *configfile);
+ }
+-- 
+2.47.1
+

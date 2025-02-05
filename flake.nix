@@ -10,11 +10,12 @@
 
     homeModules = import ./home/default.nix;
 
-    packages = nixpkgs.lib.genAttrs [ "x86_64-linux" "aarch64-linux" ]
-      (system: (import ./nixvim/versions.nix).packages { inherit system inputs; });
+    packages = nixpkgs.lib.genAttrs [ "x86_64-linux" "aarch64-linux" ] (system:
+      ((import ./nixvim/versions.nix).packages { inherit system inputs; })
+      // (import ./pkgs { pkgs = nixpkgs.legacyPackages.${system}; }));
 
-    checks = nixpkgs.lib.genAttrs [ "x86_64-linux" "aarch64-linux" ]
-      (system: (import ./nixvim/versions.nix).checks { inherit system inputs; });
+    checks = nixpkgs.lib.genAttrs [ "x86_64-linux" "aarch64-linux" ] (system:
+      (import ./nixvim/versions.nix).checks { inherit system inputs; });
 
   };
 }
