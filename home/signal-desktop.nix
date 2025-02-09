@@ -1,27 +1,51 @@
-{ config, pkgs, lib, ... }: {
-  options.programs.signal-desktop.enable = lib.mkEnableOption "signal-desktop";
+{ config, pkgs, lib, ... }:
+let
+  cfg = config.programs.signal-desktop;
 
-  config = lib.mkIf config.programs.signal-desktop.enable {
-    home.persistence."/persist/home/vaw" = {
-      directories = [{
-        directory = ".config/Signal";
-        method = "symlink";
-      }];
+  defaultPackage = (import ../lib/firejail.nix {
+    inherit pkgs lib;
+    package = pkgs.signal-desktop;
+    profile = "${pkgs.firejail}/etc/firejail/signal-desktop.profile";
+    extraArgs = [ "--dbus-user.talk=org.freedesktop.portal.Desktop" ];
+  }).overrideAttrs (old: {
+    postPhases = old.postPhases ++ [ "wrapUnbufferPhase" ];
+    wrapUnbufferPhase = ''
+      (
+          local prog="$out/bin/signal-desktop"
+          local hidden unbuffer
+
+          hidden="$(dirname "$prog")/.$(basename "$prog")"-wrapped
+          while [ -e "$hidden" ]; do
+            hidden="''${hidden}_"
+          done
+          mv "$prog" "$hidden"
+
+          # ignore check
+          assertExecutable() {
+            :
+          }
+
+          unbuffer="${pkgs.expect}/bin/unbuffer\" \"$hidden"
+
+          makeShellWrapper "$unbuffer" "$prog" --inherit-argv0 --set NIXOS_OZONE_WL ""
+      )'';
+  });
+in {
+  options.programs.signal-desktop = {
+    enable = lib.mkEnableOption "signal-desktop";
+    package = lib.mkOption {
+      type = lib.types.package;
+      default = defaultPackage;
     };
+  };
 
-    home.packages = let
-      signal-desktop = (import ../lib/firejail.nix {
-        inherit pkgs lib;
-        name = "signal-desktop";
-        wrappedExecutable = "${pkgs.signal-desktop}/bin/signal-desktop";
-        profile = "${pkgs.firejail}/etc/firejail/signal-desktop.profile";
-        extraArgs = [ "--dbus-user.talk=org.freedesktop.portal.Desktop" ];
-      });
-    in [
-      # needed for nvidia wayland
-      (pkgs.writeShellScriptBin "signal-desktop" ''
-        NIXOS_OZONE_WL= ${pkgs.expect}/bin/unbuffer ${signal-desktop}/bin/signal-desktop
-      '')
-    ];
+  config = lib.mkIf cfg.enable {
+
+    home.needsPersistence.directories = [{
+      directory = ".config/Signal";
+      method = "symlink";
+    }];
+
+    home.packages = [ cfg.package ];
   };
 }
