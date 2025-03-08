@@ -15,4 +15,5 @@
   signal-desktop = import ./signal-desktop.nix;
   ssh-agent = import ./ssh-agent.nix;
   steam = import ./steam.nix;
+  sway = import ./sway.nix;
 }
