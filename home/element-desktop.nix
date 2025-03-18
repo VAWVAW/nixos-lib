@@ -7,14 +7,16 @@ let
     package = pkgs.element-desktop;
     profile = "${pkgs.firejail}/etc/firejail/electron.profile";
     extraArgs = [
-      "--dbus-user.talk=org.freedesktop.portal.Notifications"
+      "--dbus-user.talk=org.freedesktop.Notifications"
       "--dbus-user.talk=org.freedesktop.portal.Desktop"
+      "--dbus-user.talk=org.kde.StatusNotifierWatcher"
 
       "--ignore=noexec /tmp"
       "--mkdir=\\\${HOME}/.config/Element"
       "--noblacklist=\\\${HOME}/.config/Element"
       "--whitelist=\\\${HOME}/.config/Element"
       "--dbus-user=filter"
+      "--ignore=dbus-user none"
     ];
   }).overrideAttrs (old: {
     postPhases = old.postPhases ++ [ "wrapUnbufferPhase" ];
