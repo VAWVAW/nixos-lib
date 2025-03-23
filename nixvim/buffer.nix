@@ -42,7 +42,7 @@
       action = ":BufferLineMovePrev<CR>";
     }
     {
-      key = "<C-x>";
+      key = "<C-s>";
       action = ":Bdelete! %<CR>";
     }
   ];
