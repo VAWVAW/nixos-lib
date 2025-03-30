@@ -5,7 +5,7 @@ let
   defaultPackage = (import ../lib/firejail.nix {
     inherit pkgs lib;
     package = pkgs.element-desktop;
-    profile = "${pkgs.firejail}/etc/firejail/electron.profile";
+    profile = "${pkgs.firejail}/etc/firejail/electron-common.profile";
     extraArgs = [
       "--dbus-user.talk=org.freedesktop.Notifications"
       "--dbus-user.talk=org.freedesktop.portal.Desktop"
