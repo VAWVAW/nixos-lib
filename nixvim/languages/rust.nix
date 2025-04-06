@@ -1,12 +1,55 @@
-{ config, lib, ... }: {
+{ config, pkgs, lib, ... }: {
   options.languages.rust.enable = lib.mkEnableOption "rust language support";
 
-  config.plugins = lib.mkIf config.languages.rust.enable {
-    lsp.enable = true;
-    lsp.servers.rust_analyzer = {
+  config = lib.mkIf config.languages.rust.enable {
+    plugins = {
+      lsp.enable = true;
+      dap.enable = true;
+    };
+    plugins.rustaceanvim = {
       enable = true;
-      installCargo = false;
-      installRustc = false;
+      settings = {
+        dap = {
+          adapter = {
+            port = "13000";
+            executable = {
+              command =
+                "${pkgs.vscode-extensions.vadimcn.vscode-lldb}/share/vscode/extensions/vadimcn.vscode-lldb/adapter/codelldb";
+              args = [ "--port" "13000" ];
+            };
+            type = "server";
+          };
+          autoloadConfigurations = true;
+        };
+
+        server = {
+          default_settings = {
+            rust-analyzer = {
+              cargo.features = "all";
+              diagnostics.styleLints.enable = true;
+
+              check = {
+                command = "clippy";
+                features = "all";
+              };
+
+              files.excludeDirs =
+                [ ".cargo" ".direnv" ".git" "node_modules" "target" ];
+
+              inlayHints = {
+                closureStyle = "rust_analyzer";
+                closureCaptureHints.enable = true;
+                discriminantHints.enable = "always";
+                expressionAdjustmentHints.enable = "always";
+                expressionAdjustmentHints.hideOutsideUnsafe = true;
+                lifetimeElisionHints.enable = "skip_trivial";
+              };
+
+              rustc.source = "discover";
+            };
+          };
+        };
+      };
     };
   };
 }
