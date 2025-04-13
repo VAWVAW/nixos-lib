@@ -4,7 +4,7 @@ let
 
   defaultPackage = (import ../lib/firejail.nix {
     inherit pkgs lib;
-    package = pkgs.signal-desktop;
+    package = pkgs.signal-desktop-bin;
     profile = "${pkgs.firejail}/etc/firejail/signal-desktop.profile";
     extraArgs = [ "--dbus-user.talk=org.freedesktop.portal.Desktop" ];
   }).overrideAttrs (old: {

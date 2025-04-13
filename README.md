@@ -9,7 +9,7 @@ Nothing is activated by default but defaults are overwritten.
 Variants:
 
 - `nixvim`: base config; ~ 1G
-- `nixvim-all`: support for all languages enabled; ~ 3G
+- `nixvim-all`: support for all languages enabled; ~ 4G
 - `nixvim-small`: use system packages for e.g. git; ~ 500M
 - `nixvim-minimal`: no treesitter; ~ 250M
 - `nixvim-<version>-tty`: reduce number of special glypgs for use in tty

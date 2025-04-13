@@ -12,17 +12,13 @@ rec {
       nixvim-all = nixvim.extend { languages.all.enable = true; };
       # ~ 500 MB
       nixvim-small = nixvim.extend {
-        plugins = {
-          fugitive.gitPackage = null;
-          gitsigns.gitPackage = null;
-          lualine.gitPackage = null;
-          nvim-tree.gitPackage = null;
-          lsp.servers = {
-            bashls.enable = false;
-            jsonls.enable = false;
-            yamlls.enable = false;
-          };
+        dependencies.git.enable = false;
+        plugins.lsp.servers = {
+          bashls.enable = false;
+          jsonls.enable = false;
+          yamlls.enable = false;
         };
+
       };
       # ~ 250 MB
       nixvim-minimal =
