@@ -10,7 +10,7 @@ in {
           "source ${dir}/config.fish # enable shell integration for foot terminal";
         bash.initExtra =
           ". ${dir}/bashrc # enable shell integration for foot terminal";
-        zsh.initExtra = ''
+        zsh.initContent = ''
           # enable shell integration for foot terminal
           function osc7-pwd() {
               emulate -L zsh # also sets localoptions for us
