@@ -56,9 +56,9 @@ in {
 package,
 
 # paths of the executables to wrap relative to package root
-relativePath ? "/bin/" + (package.mainProgram or lib.getName package),
+relativePath ? "/bin/" + (package.meta.mainProgram or (lib.getName package)),
 
-# firejail profile to use (equivilent to `extraArgs = ["--profile=${profile}"]`)
+# firejail profile to use (equivalent to `extraArgs = ["--profile=${profile}"]`)
 profile ? null,
 
 # extra arguments to pass to firejail
